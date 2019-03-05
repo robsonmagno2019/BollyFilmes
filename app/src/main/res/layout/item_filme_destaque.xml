@@ -25,7 +25,7 @@
         android:padding="5dp"/>
 
     <RatingBar
-        style="@android:style/Widget.Holo.RatingBar"
+        style="@android:style/Widget.Holo.RatingBar.Indicator"
         android:id="@+id/item_avaliacao"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
