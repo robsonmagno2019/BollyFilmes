@@ -1,6 +1,8 @@
 package com.robsonmagno.bollyfilmes.views;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.robsonmagno.bollyfilmes.R;
 import com.robsonmagno.bollyfilmes.entities.ItemFilme;
+import com.robsonmagno.bollyfilmes.fragments.FilmeDetalheFragment;
 
 public class FilmeDetalheActivity extends AppCompatActivity {
 
@@ -20,18 +23,23 @@ public class FilmeDetalheActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ItemFilme itemFilme = (ItemFilme) intent.getSerializableExtra(MainActivity.KEY_FILME);
 
-        TextView titulo = findViewById(R.id.item_titulo);
-        titulo.setText(itemFilme.getTitulo());
+        // Cria um gerenciador de fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        TextView desc = findViewById(R.id.item_desc);
-        desc.setText(itemFilme.getDescricao());
+        // Cria uma transação de fragment
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        TextView data = findViewById(R.id.item_data);
-        data.setText(itemFilme.getDataLancamento());
+        // Cria a fragment para qual sera passada as informações
+        FilmeDetalheFragment filmeDetalheFragment = new FilmeDetalheFragment();
 
-        RatingBar avaliacao = findViewById(R.id.item_avaliacao);
-        avaliacao.setRating(itemFilme.getAvaliacao());
+        // Cria o pacote onde vai as informações.
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.KEY_FILME, itemFilme);
 
-        Button btnTrailer = findViewById(R.id.item_btn_trailer);
+        // Adiciona o pacote na fragment criada.
+        filmeDetalheFragment.setArguments(bundle);
+
+        // Executa a transação
+        fragmentTransaction.commit();
     }
 }
