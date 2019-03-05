@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -20,6 +21,22 @@ public class FilmesAdapter extends ArrayAdapter<ItemFilme> {
 
     public FilmesAdapter(Context context, ArrayList<ItemFilme> filmes){
         super(context, 0, filmes);
+    }
+
+    public static class ItemFilmeHolder {
+        TextView titulo;
+        TextView desc;
+        TextView dataLancamento;
+        RatingBar avaliacao;
+        ImageView poster;
+
+        public ItemFilmeHolder(View view){
+            titulo = view.findViewById(R.id.item_titulo);
+            desc = view.findViewById(R.id.item_desc);
+            dataLancamento = view.findViewById(R.id.item_data);
+            avaliacao = view.findViewById(R.id.item_avaliacao);
+            poster = view.findViewById(R.id.item_poster);
+        }
     }
 
     @Override
@@ -38,22 +55,26 @@ public class FilmesAdapter extends ArrayAdapter<ItemFilme> {
 
                 RatingBar avaliacao = itemView.findViewById(R.id.item_avaliacao);
                 avaliacao.setRating(filme.getAvaliacao());
+
                 break;
             }
             case VIEW_TYPE_ITEM:{
                 itemView = LayoutInflater.from(getContext()).inflate(R.layout.item_filme, parent, false);
 
-                TextView titulo = itemView.findViewById(R.id.item_titulo);
-                titulo.setText(filme.getTitulo());
+                ItemFilmeHolder itemFilmeHolder;
 
-                TextView desc = itemView.findViewById(R.id.item_desc);
-                desc.setText(filme.getDescricao());
+                if(itemView.getTag() == null){
+                    itemFilmeHolder = new ItemFilmeHolder(itemView);
+                    itemView.setTag(itemFilmeHolder);
+                }else{
+                    itemFilmeHolder = (ItemFilmeHolder)itemView.getTag();
+                }
 
-                TextView dataLancamento = itemView.findViewById(R.id.item_data);
-                dataLancamento.setText(filme.getDataLancamento());
+                itemFilmeHolder.titulo.setText(filme.getTitulo());
+                itemFilmeHolder.desc.setText(filme.getDescricao());
+                itemFilmeHolder.dataLancamento.setText(filme.getDataLancamento());
+                itemFilmeHolder.avaliacao.setRating(filme.getAvaliacao());
 
-                RatingBar avaliacao = itemView.findViewById(R.id.item_avaliacao);
-                avaliacao.setRating(filme.getAvaliacao());
                 break;
             }
         }
